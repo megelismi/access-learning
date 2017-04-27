@@ -72,6 +72,7 @@
     "babel-preset-react": "^6.11.1",
     "chokidar-cli": "^1.2.0",
     "clean-css": "^3.4.19",
+    "eslint-config-rallycoding": "^3.2.0",
     "json": "^9.0.4",
     "mocha": "^3.0.1",
     "mustache": "^2.2.1",
@@ -82,6 +83,13 @@
   },
   "dependencies": {
     "express": "^4.14.0",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^15.5.4",
+    "react-bootstrap": "^0.31.0",
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "redux": "^3.6.0",
+    "redux-logger": "^3.0.1",
+    "redux-thunk": "^2.2.0"
   }
 }
