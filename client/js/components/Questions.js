@@ -7,7 +7,8 @@ const Questions = (props) => (
         <Modal.Title>Getting Started</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Hey hey hey!
+        <div className="questions-container">{props.question} </div>
+        {props.answer}
       </Modal.Body>
       <Modal.Footer className="questions-modal-footer" />
     </Modal>

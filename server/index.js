@@ -10,17 +10,32 @@ const app = express();
 
 app.use(express.static(process.env.CLIENT_PATH));
 
-function runServer() {
-    return new Promise((resolve, reject) => {
-        app.listen(PORT, HOST, (err) => {
-            if (err) {
-                console.error(err);
-                reject(err);
-            }
+const localConnection = {
+  database: 'edtech-mockup'
+};
 
-            const host = HOST || 'localhost';
-            console.log(`Listening on ${host}:${PORT}`);
-        });
+const knex = require('knex')({
+  client: 'pg',
+  connection: process.env.DATABASE_URL || localConnection
+});
+
+app.get("/questions", (req, res) => {
+  knex("questions").then((questions) => {
+      res.status(200).json(questions); 
+  }); 
+}); 
+
+function runServer() {
+  return new Promise((resolve, reject) => {
+    app.listen(PORT, HOST, (err) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      }
+
+      const host = HOST || 'localhost';
+      console.log(`Listening on ${host}:${PORT}`);
+      });
     });
 }
 
