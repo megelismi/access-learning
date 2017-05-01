@@ -9,7 +9,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state={
-      showFeedback: false
+      showFeedback: false, 
+      questionCount: 0
     }
   }
 
@@ -23,22 +24,25 @@ class App extends Component {
 
   checkAnswer (e) {
     e.preventDefault();
-    console.log(this.answer.value);
+    const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
     this.setState({
-      showFeedback: true
+      showFeedback: true, 
+      questionCount: questionCount+1
     });
     setTimeout(this.openNextQuestion.bind(this), 3000);
   }
+
   render() {
-    console.log('state feedback', this.state.showFeedback);
+    
     let question; 
     if (this.props.selectedQuestion === undefined) {
       question = (
         <div />
       ); 
     } else {
-      question = this.props.selectedQuestion.question;
+      let index = this.state.questionCount;
+      question = this.props.questions[index].question;
     }
 
     let blockOrNone = this.state.showFeedback ? "block" : "none";
