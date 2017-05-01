@@ -4,6 +4,11 @@ import * as actions from "../actions/actions";
 import Feedback from "./Feedback";
 import Questions from "./Questions"; 
 
+const getRandomItemFromArray = array => {
+  const index = Math.floor(Math.random() * array.length);
+  return array[index]; 
+}; 
+
 class App extends Component {
 
   constructor(props) {
@@ -11,7 +16,10 @@ class App extends Component {
     this.state={
       showFeedback: false, 
       questionCount: 0, 
-      done: false
+      done: false, 
+      rightAnswer: false, 
+      correctFeedback: ["Great job!", "Good work!", "Keep it up!"], 
+      incorrectFeedback:["Nope", "Sorry, that's incorrect", "That's wrong"]
     }
   }
 
@@ -31,6 +39,17 @@ class App extends Component {
     e.preventDefault();
     const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
+    if (this.answer.value === this.props.questions[questionCount].answer) {
+      this.setState({
+        rightAnswer: true
+      });
+    } 
+    else {
+      this.setState({
+        rightAnswer: false
+      });
+    }
+  
     if (questionCount >= this.props.questions.length-1) {
       this.setState({
         done: true,
@@ -48,11 +67,6 @@ class App extends Component {
     }
   }
 
-  wrapUpSession() {
-    console.log("state", this.state);
-    console.log("questions length", this.props.questions.length)
-    console.log('wrappin it up');
-  }
 
   render() {
 
@@ -67,7 +81,6 @@ class App extends Component {
     }
 
     let blockOrNone = this.state.showFeedback ? "block" : "none";
-    console.log(blockOrNone);
     const showOrNot = {
       display: blockOrNone
     }
@@ -79,10 +92,22 @@ class App extends Component {
       </form>
     );
 
-    let feedback = this.state.done ? "Done!!" : "Great job!";
+    let feedback; 
+    if (this.state.done) {
+      feedback = "Done!!"
+    }
+    else if (this.state.rightAnswer) {
+      feedback = getRandomItemFromArray(this.state.correctFeedback);
+    } 
+    else {
+      feedback = getRandomItemFromArray(this.state.incorrectFeedback);
+    }
 
     return (
       <div className="app-container">
+        <button onClick={() => {this.props.dispatch(actions.toggleQuestionsModal())}}>
+          Open questions
+        </button>
         <Questions 
           showModal={this.props.questionsModalOpen}
           hideModal={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
