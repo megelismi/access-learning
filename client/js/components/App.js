@@ -10,12 +10,17 @@ class App extends Component {
     super(props);
     this.state={
       showFeedback: false, 
-      questionCount: 0
+      questionCount: 0, 
+      done: false
     }
   }
 
   componentWillMount() {
     this.props.dispatch(actions.getAllQuestions());
+  }
+
+  componentDidMount() {
+    this.props.dispatch(actions.toggleQuestionsModal())
   }
 
   openNextQuestion() {
@@ -26,15 +31,31 @@ class App extends Component {
     e.preventDefault();
     const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
-    this.setState({
-      showFeedback: true, 
-      questionCount: questionCount+1
-    });
-    setTimeout(this.openNextQuestion.bind(this), 3000);
+    if (questionCount >= this.props.questions.length-1) {
+      this.setState({
+        done: true,
+        questionCount: 0,
+        showFeedback: true
+      });
+    } 
+    else {
+      this.setState({
+        done: false,
+        showFeedback: true, 
+        questionCount: questionCount+1, 
+      });
+      setTimeout(this.openNextQuestion.bind(this), 3000);
+    }
+  }
+
+  wrapUpSession() {
+    console.log("state", this.state);
+    console.log("questions length", this.props.questions.length)
+    console.log('wrappin it up');
   }
 
   render() {
-    
+
     let question; 
     if (this.props.selectedQuestion === undefined) {
       question = (
@@ -58,12 +79,10 @@ class App extends Component {
       </form>
     );
 
+    let feedback = this.state.done ? "Done!!" : "Great job!";
+
     return (
       <div className="app-container">
-        <button 
-        onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
-        >
-        Open questions</button>
         <Questions 
           showModal={this.props.questionsModalOpen}
           hideModal={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
@@ -72,6 +91,7 @@ class App extends Component {
         />
         <Feedback
           showOrNot={showOrNot}
+          text={feedback}
         />
       </div>
     );
