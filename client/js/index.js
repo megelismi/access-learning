@@ -2,19 +2,26 @@ import "babel-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { HashRouter, Router, Route} from "react-router-dom";
+import getStore from "./store";
 import store from "./store";
 import App from "./components/App";
+import WelcomePage from "./components/WelcomePage";
 
-// const routes = (
-
-// )
+const routes = (
+  <Provider store={store}>
+    <HashRouter>
+      <div>
+        <Route exact path="/" component={WelcomePage} />
+        <Route path="/game" component={App} />
+      </div>
+   </HashRouter>
+  </Provider>
+);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  routes,
   document.getElementById("root")
-); 
-
+);
 
 console.log(`Client running in ${process.env.NODE_ENV} mode`);
