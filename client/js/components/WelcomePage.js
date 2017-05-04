@@ -3,13 +3,24 @@ import { Grid, Row } from "react-bootstrap";
 import MonsterLine from "./MonsterLine";
 
 class WelcomePage extends Component {
+  constructor() {
+    super();
+    this.state={
+      monsterChosen: null
+    }
+  }
 
   monsterChosen(monster) {
+    this.setState({
+      monster1Class: monster
+    })
     console.log(`this monster was chosen ${monster}`);
   }
 
   render () {
-
+  if (this.state.monsterChosen) {
+    //add the animation class to that monster
+  }
   const populateMonsters = () => {
     let i = 1;
     let monsters = [];

@@ -94,12 +94,31 @@ table {
   border-bottom: none !important;
 }
 
+.monster-animated {
+  animation-name: shimmy;
+  animation-duration: 0.7s;
+  animation-timing-function: linear;
+  animation-iteration-count: 2;
+  transition-timing-function: ease-in-out;
+}
+
 .monster-image {
   width: 150px;
 }
+
 .questions-container {
   font-size: 28px;
   text-align: center;
 }
+
+/* The animation code */
+@keyframes shimmy {
+  0%   {transform: rotate(0deg);}
+  25%   {transform: rotate(40deg);}
+  50%  {transform: rotate(0deg);}
+  75%   {transform: rotate(-40deg);}
+  100% {transform: rotate(0deg);}
+}
+
 
 
