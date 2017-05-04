@@ -1,26 +1,28 @@
 import React, { Component } from "react";
+import classnames from "classnames";
 import { Grid, Row } from "react-bootstrap";
 import MonsterLine from "./MonsterLine";
 
 class WelcomePage extends Component {
-  constructor() {
-    super();
-    this.state={
-      monsterChosen: null
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      monsterChosen: {}
     }
   }
 
   monsterChosen(monster) {
     this.setState({
-      monster1Class: monster
-    })
+      monsterChosen: {
+        [monster]: true
+      }
+    });
     console.log(`this monster was chosen ${monster}`);
   }
 
   render () {
-  if (this.state.monsterChosen) {
-    //add the animation class to that monster
-  }
+  console.log(this.state.monsterChosen)
   const populateMonsters = () => {
     let i = 1;
     let monsters = [];
@@ -28,9 +30,11 @@ class WelcomePage extends Component {
       let monster;
       if (i === 1) {
         monster = `../assets/images/monster${i}.jpg`
+        let classes = this.state.monsterChosen[monster] ? "monster-image monster-animated" : "monster-image";
         monsters.push(
           <MonsterLine
             key={i}
+            class={classes}
             imageSrc={monster}
             onClick={this.monsterChosen.bind(this, monster)}
           />
@@ -38,9 +42,11 @@ class WelcomePage extends Component {
       }
       else {
         monster = `../assets/images/monster${i}.png`;
+        let classes = this.state.monsterChosen[monster] ? "monster-image monster-animated" : "monster-image";
         monsters.push(
           <MonsterLine
             key={i}
+            class={classes}
             imageSrc={monster}
             onClick={this.monsterChosen.bind(this, monster)}
           />
@@ -52,8 +58,6 @@ class WelcomePage extends Component {
 }
 
   let monsters = populateMonsters();
-  console.log(monsters);
-
     return (
       <div className="welcome-page-container">
         <p>Welcome! Choose your monster to get started.</p>
