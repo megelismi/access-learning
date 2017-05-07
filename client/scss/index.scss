@@ -94,16 +94,16 @@ table {
 //   border-bottom: none !important;
 // }
 
-.monster-animated {
+.monster-image {
+  width: 150px;
+}
+
+.monster-image:hover, .monster-animated {
   animation-name: shimmy;
   animation-duration: 0.7s;
   animation-timing-function: linear;
   animation-iteration-count: 2;
   transition-timing-function: ease-in-out;
-}
-
-.monster-image {
-  width: 150px;
 }
 
 .modal-body-container {

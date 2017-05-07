@@ -1,11 +1,11 @@
-import 'babel-polyfill';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { HashRouter, Route } from 'react-router-dom';
-import store from './store';
-import App from './components/App';
-import WelcomePage from './components/WelcomePage';
+import "babel-polyfill";
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { Route, HashRouter } from "react-router-dom";
+import store from "./store";
+import App from "./components/App";
+import WelcomePage from "./components/WelcomePage";
 
 const routes = (
   <Provider store={store}>
@@ -20,7 +20,7 @@ const routes = (
 
 ReactDOM.render(
   routes,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 console.log(`Client running in ${process.env.NODE_ENV} mode`);
