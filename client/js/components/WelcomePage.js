@@ -7,7 +7,6 @@ import ReusableModal from "./reusables/ReusableModal";
 import * as actions from "../actions/actions";
 import * as handlers from "../handlers/handlers";
 
-
 class WelcomePage extends Component {
 
   constructor(props) {
@@ -16,6 +15,12 @@ class WelcomePage extends Component {
       monsterChosen: {},
       redirectTo: null
     };
+  }
+
+  componentWillMount () {
+    this.setState({
+      userName: this.props.userName
+    })
   }
 
   monsterChosen(monster) {
@@ -30,7 +35,6 @@ class WelcomePage extends Component {
 
   startGame(e) {
     e.preventDefault();
-    console.log(`starting game, user name is ${this.answer.value}`);
     this.props.dispatch(actions.saveUserName(this.answer.value));
     this.setState({
       redirectTo: "/game"
@@ -38,39 +42,6 @@ class WelcomePage extends Component {
   }
 
   render() {
-    console.log(this.state);
-    const populateMonsters = () => {
-      let i = 1;
-      const monsters = [];
-      while (i <= 8) {
-        let monster;
-        if (i === 1) {
-          monster = `../assets/images/monster${i}.jpg`;
-          const classes = "monster-image";
-          monsters.push(
-            <MonsterLine
-              key={i}
-              class={classes}
-              imageSrc={monster}
-              onClick={this.monsterChosen.bind(this, monster)}
-            />
-          );
-        } else {
-          monster = `../assets/images/monster${i}.png`;
-          const classes = "monster-image";
-          monsters.push(
-            <MonsterLine
-              key={i}
-              class={classes}
-              imageSrc={monster}
-              onClick={this.monsterChosen.bind(this, monster)}
-            />
-          );
-        }
-        i++;
-      }
-    return monsters;
-  };
 
     const answerForm = (
       <form className="answer-form" onSubmit={this.startGame.bind(this)}>
@@ -79,7 +50,7 @@ class WelcomePage extends Component {
       </form>
     );
 
-    const monsters = populateMonsters();
+    const monsters = handlers.populateMonsters(this);
     if (this.state.redirectTo) {
       return (
         <div>

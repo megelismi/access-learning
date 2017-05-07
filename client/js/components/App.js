@@ -3,11 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions/actions";
 import Feedback from "./Feedback";
 import ReusableModal from "./reusables/ReusableModal";
-
-const getRandomItemFromArray = array => {
-  const index = Math.floor(Math.random() * array.length);
-  return array[index];
-};
+import * as handlers from "../handlers/handlers";
 
 class App extends Component {
 
@@ -19,16 +15,12 @@ class App extends Component {
       done: false,
       rightAnswer: false,
       correctFeedback: ["Great job!", "Good work!", "Keep it up!"],
-      incorrectFeedback: ["Nope", "Sorry, that's incorrect", "That's wrong"]
+      incorrectFeedback: ["Nope", "Sorry, that's incorrect", "That's wrong"],
     };
   }
 
   componentWillMount() {
     this.props.dispatch(actions.getAllQuestions());
-  }
-
-  componentDidMount() {
-    this.props.dispatch(actions.toggleQuestionsModal());
   }
 
   openNextQuestion() {
@@ -42,7 +34,6 @@ class App extends Component {
     e.preventDefault();
     const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
-    console.log('THIS ANSWER', this.answer);
     if (this.answer.value === this.props.questions[questionCount].answer) {
       this.setState({
         rightAnswer: true
@@ -68,7 +59,6 @@ class App extends Component {
       setTimeout(this.openNextQuestion.bind(this), 3000);
     }
   }
-
 
   render() {
     let question;
@@ -97,16 +87,26 @@ class App extends Component {
     if (this.state.done) {
       feedback = "Done!!";
     } else if (this.state.rightAnswer) {
-      feedback = getRandomItemFromArray(this.state.correctFeedback);
+      feedback = handlers.getRandomItemFromArray(this.state.correctFeedback);
     } else {
-      feedback = getRandomItemFromArray(this.state.incorrectFeedback);
+      feedback = handlers.getRandomItemFromArray(this.state.incorrectFeedback);
+    }
+
+    let welcomeMessage;
+    if (this.props.userName) {
+      welcomeMessage = `Welcome, ${this.props.userName}!`
+    } else {
+      welcomeMessage = "Welcome!"
     }
 
     return (
       <div className="app-container">
-        <button onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}>
-          Open questions
-        </button>
+        <div className="get-started-message">
+          <h1>{welcomeMessage}</h1>
+          <button onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}>
+            Open questions
+          </button>
+        </div>
         <ReusableModal
           showModal={this.props.questionsModalOpen}
           hideModal={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
@@ -125,7 +125,8 @@ class App extends Component {
 const mapStateToProps = state => ({
     questionsModalOpen: state.questionsModalOpen,
     questions: state.questions,
-    selectedQuestion: state.selectedQuestion
+    selectedQuestion: state.selectedQuestion,
+    userName: state.userName
   });
 
 export default connect(mapStateToProps)(App);
