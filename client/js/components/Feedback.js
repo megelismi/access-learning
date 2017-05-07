@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Feedback = (props) => (
     <div className="feedback-container" style={props.showOrNot}>
@@ -6,4 +6,4 @@ const Feedback = (props) => (
     </div>
   );
 
-export default Feedback; 
+export default Feedback;

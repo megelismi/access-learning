@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../actions/actions';
-import Feedback from './Feedback';
-import ReusableModal from './reusables/ReusableModal';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../actions/actions";
+import Feedback from "./Feedback";
+import ReusableModal from "./reusables/ReusableModal";
 
 const getRandomItemFromArray = array => {
   const index = Math.floor(Math.random() * array.length);
@@ -18,8 +18,8 @@ class App extends Component {
       questionCount: 0,
       done: false,
       rightAnswer: false,
-      correctFeedback: ['Great job!', 'Good work!', 'Keep it up!'],
-      incorrectFeedback: ['Nope', "Sorry, that's incorrect", "That's wrong"]
+      correctFeedback: ["Great job!", "Good work!", "Keep it up!"],
+      incorrectFeedback: ["Nope", "Sorry, that's incorrect", "That's wrong"]
     };
   }
 
@@ -42,6 +42,7 @@ class App extends Component {
     e.preventDefault();
     const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
+    console.log('THIS ANSWER', this.answer);
     if (this.answer.value === this.props.questions[questionCount].answer) {
       this.setState({
         rightAnswer: true
@@ -80,7 +81,7 @@ class App extends Component {
       question = this.props.questions[index].question;
     }
 
-    const blockOrNone = this.state.showFeedback ? 'block' : 'none';
+    const blockOrNone = this.state.showFeedback ? "block" : "none";
     const showOrNot = {
       display: blockOrNone
     };
@@ -94,7 +95,7 @@ class App extends Component {
 
     let feedback;
     if (this.state.done) {
-      feedback = 'Done!!';
+      feedback = "Done!!";
     } else if (this.state.rightAnswer) {
       feedback = getRandomItemFromArray(this.state.correctFeedback);
     } else {

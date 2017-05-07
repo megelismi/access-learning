@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Grid, Row } from 'react-bootstrap';
-import MonsterLine from './MonsterLine';
-import ReusableModal from './reusables/ReusableModal';
-import * as actions from '../actions/actions';
-import * as handlers from '../handlers/handlers';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Grid, Row } from "react-bootstrap";
+import MonsterLine from "./MonsterLine";
+import ReusableModal from "./reusables/ReusableModal";
+import * as actions from "../actions/actions";
+import * as handlers from "../handlers/handlers";
 
 class WelcomePage extends Component {
 
@@ -25,6 +25,11 @@ class WelcomePage extends Component {
   this.props.dispatch(actions.toggleGettingStartedModal());
   }
 
+  startGame(e) {
+    e.preventDefault();
+    console.log(`starting game, user name is ${this.answer.value}`);
+  }
+
   render() {
   console.log(this.state);
   const populateMonsters = () => {
@@ -36,8 +41,8 @@ class WelcomePage extends Component {
         monster = `../assets/images/monster${i}.jpg`;
         const classes =
         this.state.monsterChosen[monster] ?
-        'monster-image monster-animated' :
-        'monster-image';
+        "monster-image monster-animated" :
+        "monster-image";
         monsters.push(
           <MonsterLine
             key={i}
@@ -50,8 +55,8 @@ class WelcomePage extends Component {
         monster = `../assets/images/monster${i}.png`;
         const classes =
         this.state.monsterChosen[monster] ?
-        'monster-image monster-animated' :
-        'monster-image';
+        "monster-image monster-animated" :
+        "monster-image";
         monsters.push(
           <MonsterLine
             key={i}
@@ -66,6 +71,13 @@ class WelcomePage extends Component {
   return monsters;
 };
 
+  const answerForm = (
+    <form className="answer-form" onSubmit={this.startGame.bind(this)}>
+      <input ref={answer => this.answer = answer} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+
   const monsters = populateMonsters();
     return (
       <div className="welcome-page-container">
@@ -74,6 +86,7 @@ class WelcomePage extends Component {
             showModal={this.props.gettingStartedModal}
             hideModal={() => { this.props.dispatch(actions.toggleGettingStartedModal()); }}
             content="Great! Now entered your name below"
+            userInput={answerForm}
           /> :
           null}
         <p>Welcome! Choose your monster to get started.</p>
