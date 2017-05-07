@@ -2,15 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions";
 import Feedback from "./Feedback";
-import Questions from "./Questions"; 
+import ReusableModal from "./reusables/ReusableModal";
+import * as handlers from "../handlers/handlers";
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state={
-      showFeedback: false
-    }
+    this.state = {
+      showFeedback: false,
+      questionCount: 0,
+      done: false,
+      rightAnswer: false,
+      correctFeedback: ["Great job!", "Good work!", "Keep it up!"],
+      incorrectFeedback: ["Nope", "Sorry, that's incorrect", "That's wrong"],
+    };
   }
 
   componentWillMount() {
@@ -19,33 +25,56 @@ class App extends Component {
 
   openNextQuestion() {
     this.props.dispatch(actions.toggleQuestionsModal());
+    this.setState({
+      showFeedback: false
+    });
   }
 
-  checkAnswer (e) {
+  checkAnswer(e) {
     e.preventDefault();
-    console.log(this.answer.value);
+    const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
-    this.setState({
-      showFeedback: true
-    });
-    setTimeout(this.openNextQuestion.bind(this), 3000);
+    if (this.answer.value === this.props.questions[questionCount].answer) {
+      this.setState({
+        rightAnswer: true
+      });
+    } else {
+      this.setState({
+        rightAnswer: false
+      });
+    }
+
+    if (questionCount >= this.props.questions.length - 1) {
+      this.setState({
+        done: true,
+        questionCount: 0,
+        showFeedback: true
+      });
+    } else {
+      this.setState({
+        done: false,
+        showFeedback: true,
+        questionCount: questionCount + 1,
+      });
+      setTimeout(this.openNextQuestion.bind(this), 3000);
+    }
   }
+
   render() {
-    console.log('state feedback', this.state.showFeedback);
-    let question; 
+    let question;
     if (this.props.selectedQuestion === undefined) {
       question = (
         <div />
-      ); 
+      );
     } else {
-      question = this.props.selectedQuestion.question;
+      const index = this.state.questionCount;
+      question = this.props.questions[index].question;
     }
 
-    let blockOrNone = this.state.showFeedback ? "block" : "none";
-    console.log(blockOrNone);
+    const blockOrNone = this.state.showFeedback ? "block" : "none";
     const showOrNot = {
       display: blockOrNone
-    }
+    };
 
     const answerForm = (
       <form className="answer-form" onSubmit={this.checkAnswer.bind(this)}>
@@ -54,20 +83,39 @@ class App extends Component {
       </form>
     );
 
+    let feedback;
+    if (this.state.done) {
+      feedback = "Done!!";
+    } else if (this.state.rightAnswer) {
+      feedback = handlers.getRandomItemFromArray(this.state.correctFeedback);
+    } else {
+      feedback = handlers.getRandomItemFromArray(this.state.incorrectFeedback);
+    }
+
+    let welcomeMessage;
+    if (this.props.userName) {
+      welcomeMessage = `Welcome, ${this.props.userName}!`
+    } else {
+      welcomeMessage = "Welcome!"
+    }
+
     return (
       <div className="app-container">
-        <button 
-        onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
-        >
-        Open questions</button>
-        <Questions 
+        <div className="get-started-message">
+          <h1>{welcomeMessage}</h1>
+          <button onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}>
+            Open questions
+          </button>
+        </div>
+        <ReusableModal
           showModal={this.props.questionsModalOpen}
           hideModal={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
-          question={question}
-          answer={answerForm}
+          content={question}
+          userInput={answerForm}
         />
         <Feedback
           showOrNot={showOrNot}
+          text={feedback}
         />
       </div>
     );
@@ -75,9 +123,10 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-    questionsModalOpen: state.questionsModalOpen, 
-    questions: state.questions, 
-    selectedQuestion: state.selectedQuestion
+    questionsModalOpen: state.questionsModalOpen,
+    questions: state.questions,
+    selectedQuestion: state.selectedQuestion,
+    userName: state.userName
   });
 
 export default connect(mapStateToProps)(App);

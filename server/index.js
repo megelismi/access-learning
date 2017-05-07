@@ -21,9 +21,10 @@ const knex = require('knex')({
 
 app.get("/questions", (req, res) => {
   knex("questions").then((questions) => {
-      res.status(200).json(questions); 
-  }); 
-}); 
+      res.status(200).json(questions);
+  });
+});
+
 
 function runServer() {
   return new Promise((resolve, reject) => {
