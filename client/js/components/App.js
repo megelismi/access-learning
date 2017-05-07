@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import * as actions from "../actions/actions";
-import Feedback from "./Feedback";
-import Questions from "./Questions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions/actions';
+import Feedback from './Feedback';
+import ReusableModal from './reusables/ReusableModal';
 
 const getRandomItemFromArray = array => {
   const index = Math.floor(Math.random() * array.length);
@@ -13,14 +13,14 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       showFeedback: false,
       questionCount: 0,
       done: false,
       rightAnswer: false,
-      correctFeedback: ["Great job!", "Good work!", "Keep it up!"],
-      incorrectFeedback:["Nope", "Sorry, that's incorrect", "That's wrong"]
-    }
+      correctFeedback: ['Great job!', 'Good work!', 'Keep it up!'],
+      incorrectFeedback: ['Nope', "Sorry, that's incorrect", "That's wrong"]
+    };
   }
 
   componentWillMount() {
@@ -28,7 +28,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.toggleQuestionsModal())
+    this.props.dispatch(actions.toggleQuestionsModal());
   }
 
   openNextQuestion() {
@@ -38,7 +38,7 @@ class App extends Component {
     });
   }
 
-  checkAnswer (e) {
+  checkAnswer(e) {
     e.preventDefault();
     const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
@@ -46,25 +46,23 @@ class App extends Component {
       this.setState({
         rightAnswer: true
       });
-    }
-    else {
+    } else {
       this.setState({
         rightAnswer: false
       });
     }
 
-    if (questionCount >= this.props.questions.length-1) {
+    if (questionCount >= this.props.questions.length - 1) {
       this.setState({
         done: true,
         questionCount: 0,
         showFeedback: true
       });
-    }
-    else {
+    } else {
       this.setState({
         done: false,
         showFeedback: true,
-        questionCount: questionCount+1,
+        questionCount: questionCount + 1,
       });
       setTimeout(this.openNextQuestion.bind(this), 3000);
     }
@@ -72,21 +70,20 @@ class App extends Component {
 
 
   render() {
-
     let question;
     if (this.props.selectedQuestion === undefined) {
       question = (
         <div />
       );
     } else {
-      let index = this.state.questionCount;
+      const index = this.state.questionCount;
       question = this.props.questions[index].question;
     }
 
-    let blockOrNone = this.state.showFeedback ? "block" : "none";
+    const blockOrNone = this.state.showFeedback ? 'block' : 'none';
     const showOrNot = {
       display: blockOrNone
-    }
+    };
 
     const answerForm = (
       <form className="answer-form" onSubmit={this.checkAnswer.bind(this)}>
@@ -97,25 +94,23 @@ class App extends Component {
 
     let feedback;
     if (this.state.done) {
-      feedback = "Done!!"
-    }
-    else if (this.state.rightAnswer) {
+      feedback = 'Done!!';
+    } else if (this.state.rightAnswer) {
       feedback = getRandomItemFromArray(this.state.correctFeedback);
-    }
-    else {
+    } else {
       feedback = getRandomItemFromArray(this.state.incorrectFeedback);
     }
 
     return (
       <div className="app-container">
-        <button onClick={() => {this.props.dispatch(actions.toggleQuestionsModal())}}>
+        <button onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}>
           Open questions
         </button>
-        <Questions
+        <ReusableModal
           showModal={this.props.questionsModalOpen}
           hideModal={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
-          question={question}
-          answer={answerForm}
+          content={question}
+          userInput={answerForm}
         />
         <Feedback
           showOrNot={showOrNot}

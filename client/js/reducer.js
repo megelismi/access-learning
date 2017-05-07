@@ -1,20 +1,26 @@
-import * as actions from "./actions/actions";
+import * as actions from './actions/actions';
 
 const stateReducer = (state = {
-  questionsModalOpen: false, 
-  questions: [], 
+  questionsModalOpen: false,
+  gettingStartedModal: false,
+  questions: [],
 }, action) => {
   switch (action.type) {
-
+    //refactor to streamplace style
     case actions.GET_ALL_QUESTIONS_SUCCESS:
-      return Object.assign({}, state, { questions: action.questions, selectedQuestion: action.questions[0] });
+      return Object.assign({}, state,
+      { questions: action.questions, selectedQuestion: action.questions[0] });
 
-    case actions.TOGGLE_QUESTIONS_MODAL: 
+    case actions.TOGGLE_QUESTIONS_MODAL:
       return Object.assign({}, state, { questionsModalOpen: !state.questionsModalOpen });
+
+     case actions.TOGGLE_GETTING_STARTED_MODAL:
+      return Object.assign({}, state,
+      { gettingStartedModal: action.boolean || !state.gettingStartedModal });
 
     default:
       return state;
-      
+
   }
 };
 

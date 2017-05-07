@@ -1,7 +1,10 @@
-import React, { Component } from "react";
-import classnames from "classnames";
-import { Grid, Row } from "react-bootstrap";
-import MonsterLine from "./MonsterLine";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Grid, Row } from 'react-bootstrap';
+import MonsterLine from './MonsterLine';
+import ReusableModal from './reusables/ReusableModal';
+import * as actions from '../actions/actions';
+import * as handlers from '../handlers/handlers';
 
 class WelcomePage extends Component {
 
@@ -9,28 +12,32 @@ class WelcomePage extends Component {
     super(props);
     this.state = {
       monsterChosen: {}
-    }
+    };
   }
 
   monsterChosen(monster) {
     this.setState({
       monsterChosen: {
-        [monster]: true
-      }
+        [monster]: true,
+      },
+      theMonster: [monster]
     });
-    console.log(`this monster was chosen ${monster}`);
+  this.props.dispatch(actions.toggleGettingStartedModal());
   }
 
-  render () {
-  console.log(this.state.monsterChosen)
+  render() {
+  console.log(this.state);
   const populateMonsters = () => {
     let i = 1;
-    let monsters = [];
+    const monsters = [];
     while (i <= 8) {
       let monster;
       if (i === 1) {
-        monster = `../assets/images/monster${i}.jpg`
-        let classes = this.state.monsterChosen[monster] ? "monster-image monster-animated" : "monster-image";
+        monster = `../assets/images/monster${i}.jpg`;
+        const classes =
+        this.state.monsterChosen[monster] ?
+        'monster-image monster-animated' :
+        'monster-image';
         monsters.push(
           <MonsterLine
             key={i}
@@ -38,11 +45,13 @@ class WelcomePage extends Component {
             imageSrc={monster}
             onClick={this.monsterChosen.bind(this, monster)}
           />
-        )
-      }
-      else {
+        );
+      } else {
         monster = `../assets/images/monster${i}.png`;
-        let classes = this.state.monsterChosen[monster] ? "monster-image monster-animated" : "monster-image";
+        const classes =
+        this.state.monsterChosen[monster] ?
+        'monster-image monster-animated' :
+        'monster-image';
         monsters.push(
           <MonsterLine
             key={i}
@@ -50,25 +59,38 @@ class WelcomePage extends Component {
             imageSrc={monster}
             onClick={this.monsterChosen.bind(this, monster)}
           />
-        )
+        );
       }
       i++;
     }
   return monsters;
-}
+};
 
-  let monsters = populateMonsters();
+  const monsters = populateMonsters();
     return (
       <div className="welcome-page-container">
+        {this.props.gettingStartedModal ?
+          <ReusableModal
+            showModal={this.props.gettingStartedModal}
+            hideModal={() => { this.props.dispatch(actions.toggleGettingStartedModal()); }}
+            content="Great! Now entered your name below"
+          /> :
+          null}
         <p>Welcome! Choose your monster to get started.</p>
           <Grid>
             <Row className="show-grid">
               {monsters}
             </Row>
           </Grid>
+        }
       </div>
     );
   }
-};
+}
 
-export default WelcomePage;
+const mapStateToProps = state => ({
+    gettingStartedModal: state.gettingStartedModal
+  });
+
+export default connect(mapStateToProps)(WelcomePage);
+
