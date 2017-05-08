@@ -43,6 +43,9 @@ table {
   border-spacing: 0;
 }
 
+$navy-blue: #0B3961;
+$deep-navy-blue: #062035;
+
 .answer-form {
   text-align: center;
 }
@@ -74,47 +77,67 @@ table {
   background-size: cover;
 }
 
-.get-started-message {
-  height: 60%;
-  padding: 60px 30px;
-  margin: 0 auto;
-  width: 50%;
-  text-align: center;
+.game-monster-image {
+  position: absolute;
+  left: 25%;
+  bottom: 10%;
 }
 
-.get-started-message h1 {
+.get-started-button {
+  background-color: $navy-blue;
+  border: 1px solid $navy-blue;
+  border-radius: 2px;
+  width: 140px;
+  font-size: 18px;
+  padding: 5px;
   color: white;
-  font-size: 72px;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  margin: 0 auto;
+  display: block;
+  &:hover {
+    background-color: $deep-navy-blue;
+  }
+}
+
+.get-started-message {
+  opacity: 0.8;
+  border-radius: 5px;
+  position: absolute;
+  background-color: white;
+  width: 600px;
+  padding: 24px 18px;
+  top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: justify;
+  h1 {
+    color: $navy-blue;
+    margin: 0;
+    font-size: 48px;
+    text-align: center;
+  }
+  p {
+    margin: 40px 0;
+    color: $navy-blue;
+    font-size: 24px;
+  }
 }
 
 .feedback-container {
   text-align: center;
+  p {
+    color: white;
+    font-size: 72px;
+    text-shadow: -1px 0 $navy-blue, 0 1px $navy-blue, 1px 0 $navy-blue, 0 -1px $navy-blue;
+  }
 }
 
-.feedback-container p {
-  color: white;
-  font-size: 72px;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-// .modal-backdrop.in {
-//   opacity: 0 !important;
-// }
-
-// .modal-content{
-//   background-color: rgba(255, 255, 255, 0.65) !important;
-// }
-
-// .modal-header {
-//   border-bottom: none !important;
-// }
-
-.monster-image {
+.welcome-monster-image {
   width: 150px;
 }
 
-.monster-image:hover, .monster-animated {
+.welcome-monster-image:hover, .monster-animated {
   animation-name: shimmy;
   animation-duration: 0.7s;
   animation-timing-function: linear;

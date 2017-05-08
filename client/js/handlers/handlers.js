@@ -15,11 +15,9 @@ export const populateMonsters = (componentThis) => {
     let monster;
     if (i === 1) {
       monster = `../assets/images/monster${i}.jpg`;
-      const classes = "monster-image";
       monsters.push(
         <MonsterLine
           key={i}
-          class={classes}
           imageSrc={monster}
           onClick={componentThis.monsterChosen.bind(componentThis, monster)}
         />
@@ -30,7 +28,6 @@ export const populateMonsters = (componentThis) => {
       monsters.push(
         <MonsterLine
           key={i}
-          class={classes}
           imageSrc={monster}
           onClick={componentThis.monsterChosen.bind(componentThis, monster)}
         />

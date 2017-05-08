@@ -11,8 +11,8 @@ const stateReducer = (state = {
       return Object.assign({}, state,
       { questions: action.questions, selectedQuestion: action.questions[0] });
 
-    case actions.SAVE_USER_NAME:
-     return Object.assign({}, state, { userName: action.name });
+    case actions.SAVE_USER_DETAILS:
+     return Object.assign({}, state, { userName: action.name, monster: action.monster[0] });
 
     case actions.TOGGLE_QUESTIONS_MODAL:
       return Object.assign({}, state, { questionsModalOpen: !state.questionsModalOpen });

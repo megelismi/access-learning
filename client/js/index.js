@@ -7,16 +7,6 @@ import store from "./store";
 import App from "./components/App";
 import WelcomePage from "./components/WelcomePage";
 
-// const persistedState = loadState();
-// const store = createStore(
-//   stateReducer,
-//   persistedState
-// );
-
-// store.subscribe(() => {
-//   saveState(store.getState());
-// });
-
 const routes = (
   <Provider store={store}>
     <HashRouter>

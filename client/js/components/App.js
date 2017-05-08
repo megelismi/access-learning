@@ -14,6 +14,7 @@ class App extends Component {
       questionCount: 0,
       done: false,
       rightAnswer: false,
+      monsterSize: 100,
       correctFeedback: ["Great job!", "Good work!", "Keep it up!"],
       incorrectFeedback: ["Nope", "Sorry, that's incorrect", "That's wrong"],
     };
@@ -36,7 +37,8 @@ class App extends Component {
     this.props.dispatch(actions.toggleQuestionsModal());
     if (this.answer.value === this.props.questions[questionCount].answer) {
       this.setState({
-        rightAnswer: true
+        rightAnswer: true,
+        monsterSize: this.state.monsterSize + 50
       });
     } else {
       this.setState({
@@ -98,13 +100,31 @@ class App extends Component {
     } else {
       welcomeMessage = "Welcome!"
     }
+    let monsterImg;
+    if (this.props.monster) {
+      monsterImg =
+        <img
+          className="game-monster-image"
+          role="presentation"
+          src={this.props.monster}
+          style={{
+            width:`${this.state.monsterSize}px`
+          }}
+        />
+    } else {
+      monsterImg = <div />
+    }
 
     return (
       <div className="app-container">
         <div className="get-started-message">
           <h1>{welcomeMessage}</h1>
-          <button onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}>
-            Open questions
+          <p> Your monster is tiny and needs your help growing.
+          For every question that you get right, you monster will grow by half its size!
+          See how big you can get your monster. If you get the question incorrect, no worries.
+          We will teach you the answer, then you will have a chance to master it later. Good luck!</p>
+          <button className="get-started-button" onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}>
+            Get started
           </button>
         </div>
         <ReusableModal
@@ -117,6 +137,7 @@ class App extends Component {
           showOrNot={showOrNot}
           text={feedback}
         />
+      {monsterImg}
       </div>
     );
   }
@@ -126,7 +147,8 @@ const mapStateToProps = state => ({
     questionsModalOpen: state.questionsModalOpen,
     questions: state.questions,
     selectedQuestion: state.selectedQuestion,
-    userName: state.userName
+    userName: state.userName,
+    monster: state.monster
   });
 
 export default connect(mapStateToProps)(App);
