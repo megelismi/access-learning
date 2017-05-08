@@ -1,9 +1,12 @@
 import React from "react";
 
-const Feedback = (props) => (
+const Feedback = (props) => {
+  debugger;
+  return (
     <div className="feedback-container" style={props.showOrNot}>
-      <p>{props.text}</p>
+      {props.content}
     </div>
   );
+}
 
 export default Feedback;
