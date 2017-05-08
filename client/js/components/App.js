@@ -15,9 +15,12 @@ class App extends Component {
       questionCount: 0,
       done: false,
       rightAnswer: false,
+      correctAnswer: null,
       monsterSize: 100,
-      correctFeedback: ["Great job!", "Good work!", "Keep it up!"],
-      incorrectFeedback: ["Nope", "Sorry, that's incorrect", "That's wrong"],
+      correctFeedback: [
+        "Woo! Look at him grow!", "He's going to be ginormous!", "You got it!",
+        "You really know your stuff.", "Amazing!", "Nice work", "That's right!"
+        ],
       gameStarted: false
     };
   }
@@ -27,9 +30,11 @@ class App extends Component {
   }
 
   openNextQuestion() {
+    const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
     this.setState({
-      showFeedback: false
+      showFeedback: false,
+      correctAnswer: this.props.questions[questionCount].answer
     });
   }
 
@@ -44,7 +49,7 @@ class App extends Component {
       });
     } else {
       this.setState({
-        rightAnswer: false
+        rightAnswer: false,
       });
     }
 
@@ -58,14 +63,13 @@ class App extends Component {
       this.setState({
         done: false,
         showFeedback: true,
-        questionCount: questionCount + 1,
+        questionCount: questionCount + 1
       });
-      setTimeout(this.openNextQuestion.bind(this), 3000);
+      setTimeout(this.openNextQuestion.bind(this), 2000);
     }
   }
 
   startGame() {
-    console.log('start game called')
     this.setState({
       gameStarted: true
     });
@@ -101,7 +105,7 @@ class App extends Component {
     } else if (this.state.rightAnswer) {
       feedback = handlers.getRandomItemFromArray(this.state.correctFeedback);
     } else {
-      feedback = handlers.getRandomItemFromArray(this.state.incorrectFeedback);
+      feedback = `Sorry, the correct answer is ${this.state.correctAnswer}`
     }
 
     let welcomeMessage;
