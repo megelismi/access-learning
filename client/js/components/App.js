@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions/actions";
 import Feedback from "./Feedback";
 import ReusableModal from "./reusables/ReusableModal";
+import GetStartedMessage from "./GetStartedMessage";
 import * as handlers from "../handlers/handlers";
 
 class App extends Component {
@@ -14,8 +15,13 @@ class App extends Component {
       questionCount: 0,
       done: false,
       rightAnswer: false,
-      correctFeedback: ["Great job!", "Good work!", "Keep it up!"],
-      incorrectFeedback: ["Nope", "Sorry, that's incorrect", "That's wrong"],
+      correctAnswer: null,
+      monsterSize: 100,
+      correctFeedback: [
+        "Woo! Look at him grow!", "He's going to be ginormous!", "You got it!",
+        "You really know your stuff.", "Amazing!", "Nice work", "That's right!"
+        ],
+      gameStarted: false
     };
   }
 
@@ -24,9 +30,11 @@ class App extends Component {
   }
 
   openNextQuestion() {
+    const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
     this.setState({
-      showFeedback: false
+      showFeedback: false,
+      correctAnswer: this.props.questions[questionCount].answer
     });
   }
 
@@ -36,11 +44,12 @@ class App extends Component {
     this.props.dispatch(actions.toggleQuestionsModal());
     if (this.answer.value === this.props.questions[questionCount].answer) {
       this.setState({
-        rightAnswer: true
+        rightAnswer: true,
+        monsterSize: this.state.monsterSize + 50
       });
     } else {
       this.setState({
-        rightAnswer: false
+        rightAnswer: false,
       });
     }
 
@@ -54,10 +63,17 @@ class App extends Component {
       this.setState({
         done: false,
         showFeedback: true,
-        questionCount: questionCount + 1,
+        questionCount: questionCount + 1
       });
-      setTimeout(this.openNextQuestion.bind(this), 3000);
+      setTimeout(this.openNextQuestion.bind(this), 2000);
     }
+  }
+
+  startGame() {
+    this.setState({
+      gameStarted: true
+    });
+    this.props.dispatch(actions.toggleQuestionsModal());
   }
 
   render() {
@@ -89,7 +105,7 @@ class App extends Component {
     } else if (this.state.rightAnswer) {
       feedback = handlers.getRandomItemFromArray(this.state.correctFeedback);
     } else {
-      feedback = handlers.getRandomItemFromArray(this.state.incorrectFeedback);
+      feedback = `Sorry, the correct answer is ${this.state.correctAnswer}`
     }
 
     let welcomeMessage;
@@ -98,25 +114,46 @@ class App extends Component {
     } else {
       welcomeMessage = "Welcome!"
     }
+    let monsterImg;
+    if (this.props.monster) {
+      monsterImg =
+        <img
+          className="game-monster-image"
+          role="presentation"
+          src={this.props.monster}
+          style={{
+            width:`${this.state.monsterSize}px`
+          }}
+        />
+    } else {
+      monsterImg = <div />
+    }
 
+    let message;
+    if (!this.state.gameStarted) {
+      message =
+       <GetStartedMessage
+          welcomeMessage={welcomeMessage}
+          getStarted={this.startGame.bind(this)}
+        />
+    } else {
+     <div />
+    }
+    console.log(this.state);
     return (
       <div className="app-container">
-        <div className="get-started-message">
-          <h1>{welcomeMessage}</h1>
-          <button onClick={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}>
-            Open questions
-          </button>
-        </div>
+        {message}
+        <Feedback
+          showOrNot={showOrNot}
+          content={feedback}
+        />
         <ReusableModal
           showModal={this.props.questionsModalOpen}
           hideModal={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
           content={question}
           userInput={answerForm}
         />
-        <Feedback
-          showOrNot={showOrNot}
-          text={feedback}
-        />
+        {monsterImg}
       </div>
     );
   }
@@ -126,7 +163,8 @@ const mapStateToProps = state => ({
     questionsModalOpen: state.questionsModalOpen,
     questions: state.questions,
     selectedQuestion: state.selectedQuestion,
-    userName: state.userName
+    userName: state.userName,
+    monster: state.monster
   });
 
 export default connect(mapStateToProps)(App);

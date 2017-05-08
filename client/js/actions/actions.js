@@ -10,10 +10,11 @@ export const getAllQuestionsError = error => ({
   error
 });
 
-export const SAVE_USER_NAME = "SAVE_USER_NAME";
-export const saveUserName = name => ({
-  type: SAVE_USER_NAME,
-  name
+export const SAVE_USER_DETAILS = "SAVE_USER_DETAILS";
+export const saveUserDetails = (name, monster) => ({
+  type: SAVE_USER_DETAILS,
+  name,
+  monster
 });
 
 export const TOGGLE_QUESTIONS_MODAL = "TOGGLE_QUESTIONS_MODAL";

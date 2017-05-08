@@ -3,9 +3,8 @@ import { Col } from 'react-bootstrap';
 
 const MonsterLine = (props) => (
     <Col sm={6} md={3}>
-      <img
-        role='presentation'
-        className={props.class}
+      <img className="welcome-monster-image"
+        role="presentation"
         style={props.style}
         onClick={props.onClick}
         src={props.imageSrc}

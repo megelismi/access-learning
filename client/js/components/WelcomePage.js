@@ -25,9 +25,6 @@ class WelcomePage extends Component {
 
   monsterChosen(monster) {
     this.setState({
-      monsterChosen: {
-        [monster]: true,
-      },
       theMonster: [monster]
     });
   this.props.dispatch(actions.toggleGettingStartedModal());
@@ -35,7 +32,8 @@ class WelcomePage extends Component {
 
   startGame(e) {
     e.preventDefault();
-    this.props.dispatch(actions.saveUserName(this.answer.value));
+    console.log('MONSTER', this.state.theMonster);
+    this.props.dispatch(actions.saveUserDetails(this.answer.value, this.state.theMonster));
     this.setState({
       redirectTo: "/game"
     })
