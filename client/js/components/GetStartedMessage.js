@@ -1,7 +1,6 @@
-import React from "react";
+import React from 'react';
 
-const GetStartedMessage = (props) => {
-  return (
+const GetStartedMessage = (props) => (
     <div className="get-started-message">
       <h1>{props.welcomeMessage}</h1>
       <p> Your monster is tiny and needs your help growing.
@@ -13,6 +12,5 @@ const GetStartedMessage = (props) => {
       </button>
     </div>
   );
-}
 
 export default GetStartedMessage;

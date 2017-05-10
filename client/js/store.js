@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import reducer from './reducer';
-import { loadState, saveState } from "./localStorage";
+import { loadState, saveState } from './localStorage';
 
 const logger = createLogger();
 
@@ -18,7 +18,7 @@ store.subscribe(() => {
   saveState({
     monster: store.getState().monster,
     userName: store.getState().userName
-  })
+  });
 });
 
 

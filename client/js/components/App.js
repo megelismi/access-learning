@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import * as actions from "../actions/actions";
-import Feedback from "./Feedback";
-import ReusableModal from "./ReusableModal";
-import GetStartedMessage from "./GetStartedMessage";
-import RestartResumeButton from "./RestartResumeButton";
-import * as handlers from "../handlers/handlers";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions/actions';
+import Feedback from './Feedback';
+import ReusableModal from './ReusableModal';
+import GetStartedMessage from './GetStartedMessage';
+import RestartResumeButton from './RestartResumeButton';
+import * as handlers from '../handlers/handlers';
 
 class App extends Component {
 
@@ -19,8 +19,8 @@ class App extends Component {
       monsterSize: 50,
       gameModalClosed: false,
       correctFeedback: [
-        "Woo! Look at it grow!", "It's going to be ginormous!", "You got it!",
-        "You really know your stuff.", "Amazing!", "Nice work!", "That's right!"
+        'Woo! Look at it grow!', "It's going to be ginormous!", 'You got it!',
+        'You really know your stuff.', 'Amazing!', 'Nice work!', "That's right!"
         ],
       gameStarted: false
     };
@@ -77,21 +77,21 @@ class App extends Component {
     this.props.dispatch(actions.toggleQuestionsModal());
   }
 
-  restartOrResumeGame () {
+  restartOrResumeGame() {
     if (this.state.done) {
       window.location.reload();
     } else {
       this.setState({
         gameModalClosed: false
-      })
+      });
       this.props.dispatch(actions.toggleQuestionsModal());
     }
   }
 
-  closeGameModal () {
+  closeGameModal() {
     this.setState({
       gameModalClosed: true
-    })
+    });
     this.props.dispatch(actions.toggleQuestionsModal());
   }
 
@@ -115,50 +115,50 @@ class App extends Component {
 
     let feedback;
     if (this.state.done) {
-      feedback = "Thanks for playing!";
+      feedback = 'Thanks for playing!';
     } else if (this.state.rightAnswer) {
       feedback = handlers.getRandomItemFromArray(this.state.correctFeedback);
     } else {
-      feedback = `Sorry, the correct answer is ${this.state.correctAnswer}.`
+      feedback = `Sorry, the correct answer is ${this.state.correctAnswer}.`;
     }
 
     let welcomeMessage;
     if (this.props.userName) {
-      welcomeMessage = `Welcome, ${this.props.userName}!`
+      welcomeMessage = `Welcome, ${this.props.userName}!`;
     } else {
-      welcomeMessage = "Welcome!"
+      welcomeMessage = 'Welcome!';
     }
     let monsterImg;
     if (this.props.monster) {
       monsterImg =
-        <img
+        (<img
           className="game-monster-image"
           role="presentation"
           src={this.props.monster}
           style={{
-            width:`${this.state.monsterSize}px`
+            width: `${this.state.monsterSize}px`
           }}
-        />
+        />);
     } else {
-      monsterImg = <div />
+      monsterImg = <div />;
     }
 
     let message;
     if (!this.state.gameStarted) {
       message =
-       <GetStartedMessage
+       (<GetStartedMessage
           welcomeMessage={welcomeMessage}
           getStarted={this.startGame.bind(this)}
-        />
+       />);
     } else {
-     <div />
+     <div />;
     }
     let buttonText;
 
     if (this.state.done) {
-      buttonText="Restart";
+      buttonText = 'Restart';
     } else {
-      buttonText="Resume"
+      buttonText = 'Resume';
     }
 
     return (

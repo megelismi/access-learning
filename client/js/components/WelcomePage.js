@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Grid, Row } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
-import MonsterLine from "./MonsterLine";
-import ReusableModal from "./ReusableModal";
-import * as actions from "../actions/actions";
-import * as handlers from "../handlers/handlers";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Grid, Row } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+import ReusableModal from './ReusableModal';
+import * as actions from '../actions/actions';
+import * as handlers from '../handlers/handlers';
 
 class WelcomePage extends Component {
 
@@ -17,10 +16,10 @@ class WelcomePage extends Component {
     };
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       userName: this.props.userName
-    })
+    });
   }
 
   monsterChosen(monster) {
@@ -35,12 +34,11 @@ class WelcomePage extends Component {
     console.log('MONSTER', this.state.theMonster);
     this.props.dispatch(actions.saveUserDetails(this.answer.value, this.state.theMonster));
     this.setState({
-      redirectTo: "/game"
-    })
+      redirectTo: '/game'
+    });
   }
 
   render() {
-
     const answerForm = (
       <form className="answer-form" onSubmit={this.startGame.bind(this)}>
         <input ref={answer => this.answer = answer} />
@@ -54,8 +52,8 @@ class WelcomePage extends Component {
         <div>
           <Redirect to={{ pathname: this.state.redirectTo }} />
         </div>
-      )
-    } else {
+      );
+    }
       return (
         <div className="welcome-page-container">
           {this.props.gettingStartedModal ?
@@ -74,7 +72,6 @@ class WelcomePage extends Component {
             </Grid>
         </div>
       );
-    }
   }
 }
 

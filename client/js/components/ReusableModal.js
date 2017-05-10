@@ -1,5 +1,5 @@
-import React from "react";
-import { Modal } from "react-bootstrap";
+import React from 'react';
+import { Modal } from 'react-bootstrap';
 
 const ReusableModal = (props) => (
     <Modal className="modal" show={props.showModal} onHide={props.hideModal}>
@@ -8,10 +8,7 @@ const ReusableModal = (props) => (
         <div className="modal-body-container" style={props.customStyle}>{props.content} </div>
         {props.userInput}
       </Modal.Body>
-      <Modal.Footer>
-
-
-      </Modal.Footer>
+      <Modal.Footer />
     </Modal>
   );
 

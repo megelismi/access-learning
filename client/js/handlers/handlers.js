@@ -1,5 +1,5 @@
-import React from "react";
-import MonsterLine from "../components/MonsterLine";
+import React from 'react';
+import MonsterLine from '../components/MonsterLine';
 
 
 export const getRandomItemFromArray = array => {
@@ -24,7 +24,7 @@ export const populateMonsters = (componentThis) => {
       );
     } else {
       monster = `../assets/images/monster${i}.png`;
-      const classes = "monster-image";
+      const classes = 'monster-image';
       monsters.push(
         <MonsterLine
           key={i}

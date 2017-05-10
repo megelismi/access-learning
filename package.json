@@ -6,6 +6,7 @@
   "main:server": "server/index.js",
   "main:client": "client/js/index.js",
   "scripts": {
+    "lint": "eslint-config-rallycoding",
     "start": "[ \"$NODE_ENV\" = \"production\" ] && npm run serve:server:production || npm run serve:server:dev",
     "dev": "run-p watch serve:server:dev",
     "test": "mocha --recursive",

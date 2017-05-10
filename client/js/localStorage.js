@@ -1,6 +1,6 @@
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem("state");
+    const serializedState = localStorage.getItem('state');
     if (serializedState === null) {
       return undefined;
     }
@@ -8,13 +8,13 @@ export const loadState = () => {
     } catch (err) {
       return undefined;
     }
-}
+};
 
 export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem("state", serializedState);
+    localStorage.setItem('state', serializedState);
   } catch (err) {
-    console.log("An error occured while trying to save local storage:", err)
+    console.log('An error occured while trying to save local storage:', err);
   }
-}
+};
