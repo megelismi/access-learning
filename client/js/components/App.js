@@ -16,7 +16,7 @@ class App extends Component {
       done: false,
       rightAnswer: false,
       correctAnswer: null,
-      monsterSize: 100,
+      monsterSize: 50,
       correctFeedback: [
         "Woo! Look at him grow!", "He's going to be ginormous!", "You got it!",
         "You really know your stuff.", "Amazing!", "Nice work", "That's right!"

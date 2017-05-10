@@ -15,7 +15,10 @@ const store = createStore(reducer, persistedState, composeEnhancers(
 ));
 
 store.subscribe(() => {
-  saveState(store.getState());
+  saveState({
+    monster: store.getState().monster,
+    userName: store.getState().userName
+  })
 });
 
 
