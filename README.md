@@ -21,13 +21,17 @@ A mockup of a simple education app, catered towards upper elementary aged studen
 
 ## Directory layout
 
+```
+.
 ├── client      Client-side code
-│   ├── assets  Images, etc.
-│   ├── js      JavaScript, React Components, Redux Actions and Store
+│   ├── assets  Images
+│   ├── js      JavaScript - React Components, Redux Actions and Store
 │   └── scss    SASS stylesheets
 ├── server      Server-side code
 
-##Tech Stack
+```
+
+## Tech Stack
 
 Frontend: React, Redux
 Backend: Node.js, Express
