@@ -4,6 +4,7 @@ import * as actions from "../actions/actions";
 import Feedback from "./Feedback";
 import ReusableModal from "./reusables/ReusableModal";
 import GetStartedMessage from "./GetStartedMessage";
+import RestartResumeButton from "./RestartResumeButton";
 import * as handlers from "../handlers/handlers";
 
 class App extends Component {
@@ -15,11 +16,11 @@ class App extends Component {
       questionCount: 0,
       done: false,
       rightAnswer: false,
-      correctAnswer: null,
       monsterSize: 50,
+      gameModalClosed: false,
       correctFeedback: [
-        "Woo! Look at him grow!", "He's going to be ginormous!", "You got it!",
-        "You really know your stuff.", "Amazing!", "Nice work", "That's right!"
+        "Woo! Look at it grow!", "It's going to be ginormous!", "You got it!",
+        "You really know your stuff.", "Amazing!", "Nice work!", "That's right!"
         ],
       gameStarted: false
     };
@@ -42,7 +43,7 @@ class App extends Component {
     e.preventDefault();
     const questionCount = this.state.questionCount;
     this.props.dispatch(actions.toggleQuestionsModal());
-    if (this.answer.value === this.props.questions[questionCount].answer) {
+    if (this.answer.value.trim() === this.props.questions[questionCount].answer) {
       this.setState({
         rightAnswer: true,
         monsterSize: this.state.monsterSize + 50
@@ -71,8 +72,27 @@ class App extends Component {
 
   startGame() {
     this.setState({
-      gameStarted: true
+      gameStarted: true,
+      correctAnswer: this.props.questions[0].answer
     });
+    this.props.dispatch(actions.toggleQuestionsModal());
+  }
+
+  restartOrResumeGame () {
+    if (this.state.done) {
+      window.location.reload();
+    } else {
+      this.setState({
+        gameModalClosed: false
+      })
+      this.props.dispatch(actions.toggleQuestionsModal());
+    }
+  }
+
+  closeGameModal () {
+    this.setState({
+      gameModalClosed: true
+    })
     this.props.dispatch(actions.toggleQuestionsModal());
   }
 
@@ -101,11 +121,11 @@ class App extends Component {
 
     let feedback;
     if (this.state.done) {
-      feedback = "Done!!";
+      feedback = "Thanks for playing!";
     } else if (this.state.rightAnswer) {
       feedback = handlers.getRandomItemFromArray(this.state.correctFeedback);
     } else {
-      feedback = `Sorry, the correct answer is ${this.state.correctAnswer}`
+      feedback = `Sorry, the correct answer is ${this.state.correctAnswer}.`
     }
 
     let welcomeMessage;
@@ -139,9 +159,20 @@ class App extends Component {
     } else {
      <div />
     }
-    console.log(this.state);
+    let buttonText;
+
+    if (this.state.done) {
+      buttonText="Restart";
+    } else {
+      buttonText="Resume"
+    }
+
     return (
       <div className="app-container">
+        {this.state.gameModalClosed || this.state.done ? <RestartResumeButton
+          restartOrResume={buttonText}
+          onClick={this.restartOrResumeGame.bind(this)}
+        /> : null}
         {message}
         <Feedback
           showOrNot={showOrNot}
@@ -149,7 +180,7 @@ class App extends Component {
         />
         <ReusableModal
           showModal={this.props.questionsModalOpen}
-          hideModal={() => { this.props.dispatch(actions.toggleQuestionsModal()); }}
+          hideModal={this.closeGameModal.bind(this)}
           content={question}
           userInput={answerForm}
         />

@@ -6,7 +6,7 @@ const stateReducer = (state = {
   questions: []
 }, action) => {
   switch (action.type) {
-    //refactor to streamplace style
+
     case actions.GET_ALL_QUESTIONS_SUCCESS:
       return Object.assign({}, state,
       { questions: action.questions, selectedQuestion: action.questions[0] });
@@ -17,7 +17,7 @@ const stateReducer = (state = {
     case actions.TOGGLE_QUESTIONS_MODAL:
       return Object.assign({}, state, { questionsModalOpen: !state.questionsModalOpen });
 
-     case actions.TOGGLE_GETTING_STARTED_MODAL:
+    case actions.TOGGLE_GETTING_STARTED_MODAL:
       return Object.assign({}, state,
       { gettingStartedModal: !state.gettingStartedModal });
 

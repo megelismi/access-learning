@@ -8,6 +8,10 @@ const ReusableModal = (props) => (
         <div className="modal-body-container" style={props.customStyle}>{props.content} </div>
         {props.userInput}
       </Modal.Body>
+      <Modal.Footer>
+
+
+      </Modal.Footer>
     </Modal>
   );
 

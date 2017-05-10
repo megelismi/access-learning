@@ -1,5 +1,7 @@
-$navy-blue: #0B3961;
 $deep-navy-blue: #062035;
+$lightgray: #e5e5e5;
+$navy-blue: #0B3961;
+$sky: #9AEEC6;
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -30,7 +32,10 @@ body {
   line-height: 1;
   font-family: 'Patrick Hand', cursive !important;
   color: $navy-blue !important;
+  background: url('../../assets/images/landscape.png') no-repeat center center fixed;
+  background-size: cover;
 }
+
 ol, ul {
   list-style: none;
 }
@@ -54,34 +59,42 @@ table {
 .answer-form button {
   display: block;
   margin: 15px auto;
-  background-color: #0B3961;
-  border: 1px solid #0B3961;
+  background-color: $navy-blue;
+  border: 1px solid $navy-blue;
   border-radius: 2px;
-  font-size: 16px;
+  font-size: 18px;
   color: white;
 }
 
 .answer-form input {
-  height: 38px;
+  width: 40%;
   border: 2px solid #0B3961;
   background-color: rgba(255, 255, 255, 0.65);
   border-radius: 2px;
   margin: 15px;
+  font-size: 24px;
 }
 
 .app-container {
   height: 100vh;
   min-height: 80vh;
   width: 100%;
-  background: url('../../assets/images/landscape.png') no-repeat center center fixed;
-  background-color: rgba(0, 0, 0, 0.5);
-  background-size: cover;
+}
+
+.container {
+  background-color: white;
+  opacity: 0.8;
+  border-radius: 5px;
+  padding: 20px;
+  max-width: 70%;
+  text-align: center;
 }
 
 .game-monster-image {
   position: absolute;
   left: 25%;
   bottom: 10%;
+  z-index: -1;
 }
 
 .get-started-button {
@@ -126,7 +139,36 @@ table {
 .feedback-container {
   text-align: center;
   font-size: 72px;
-  z-index: 10;
+  p {
+    text-shadow:
+    -1px -1px 0 $sky,
+    1px -1px 0 $sky,
+    -1px 1px 0 $sky,
+    1px 1px 0 $sky;
+  }
+}
+
+.modal-footer {
+  background-color: $navy-blue !important;
+}
+
+.modal-header {
+  border-bottom: 4px dotted $lightgray !important;
+}
+
+.restart-or-resume-button {
+  position: absolute;
+  left: 40%;
+  top: 30%;
+  width: 15%;
+  font-size: 24px;
+  border: 1px solid $sky;
+  background-color: $navy-blue;
+  border-radius: 3px;
+  color: white;
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .welcome-monster-image {
@@ -148,9 +190,9 @@ table {
 
 .welcome-page-container {
   p {
-    font-size: 32px;
+    font-size: 48px;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
   }
 }
 
