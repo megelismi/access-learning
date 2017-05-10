@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions";
 import Feedback from "./Feedback";
-import ReusableModal from "./reusables/ReusableModal";
+import ReusableModal from "./ReusableModal";
 import GetStartedMessage from "./GetStartedMessage";
 import RestartResumeButton from "./RestartResumeButton";
 import * as handlers from "../handlers/handlers";
@@ -57,7 +57,6 @@ class App extends Component {
     if (questionCount >= this.props.questions.length - 1) {
       this.setState({
         done: true,
-        questionCount: 0,
         showFeedback: true
       });
     } else {
@@ -106,11 +105,6 @@ class App extends Component {
       const index = this.state.questionCount;
       question = this.props.questions[index].question;
     }
-
-    const blockOrNone = this.state.showFeedback ? "block" : "none";
-    const showOrNot = {
-      display: blockOrNone
-    };
 
     const answerForm = (
       <form className="answer-form" onSubmit={this.checkAnswer.bind(this)}>
@@ -174,10 +168,7 @@ class App extends Component {
           onClick={this.restartOrResumeGame.bind(this)}
         /> : null}
         {message}
-        <Feedback
-          showOrNot={showOrNot}
-          content={feedback}
-        />
+        {this.state.showFeedback ? <Feedback content={feedback} /> : null}
         <ReusableModal
           showModal={this.props.questionsModalOpen}
           hideModal={this.closeGameModal.bind(this)}

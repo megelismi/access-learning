@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Grid, Row } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import MonsterLine from "./MonsterLine";
-import ReusableModal from "./reusables/ReusableModal";
+import ReusableModal from "./ReusableModal";
 import * as actions from "../actions/actions";
 import * as handlers from "../handlers/handlers";
 
@@ -62,11 +62,11 @@ class WelcomePage extends Component {
             <ReusableModal
               showModal={this.props.gettingStartedModal}
               hideModal={() => { this.props.dispatch(actions.toggleGettingStartedModal()); }}
-              content="Great! Now enter your name below"
+              content="Great! Now enter your name."
               userInput={answerForm}
             /> :
             null}
-          <p>Welcome! Choose your monster to get started.</p>
+          <p>Welcome to Access Learning! Choose your monster to get started.</p>
             <Grid>
               <Row className="show-grid">
                 {monsters}
