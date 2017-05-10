@@ -163,12 +163,13 @@ class App extends Component {
 
     return (
       <div className="app-container">
-        {this.state.gameModalClosed || this.state.done ? <RestartResumeButton
-          restartOrResume={buttonText}
-          onClick={this.restartOrResumeGame.bind(this)}
-        /> : null}
         {message}
         {this.state.showFeedback ? <Feedback content={feedback} /> : null}
+        {this.state.gameModalClosed || this.state.done ?
+          <RestartResumeButton
+            restartOrResume={buttonText}
+            onClick={this.restartOrResumeGame.bind(this)}
+          /> : null}
         <ReusableModal
           showModal={this.props.questionsModalOpen}
           hideModal={this.closeGameModal.bind(this)}

@@ -117,7 +117,7 @@ table {
   border-radius: 5px;
   position: absolute;
   background-color: white;
-  width: 600px;
+  width: 60%;
   padding: 24px 18px;
   top: 10%;
   margin-left: auto;
@@ -157,10 +157,9 @@ table {
 }
 
 .restart-or-resume-button {
-  position: absolute;
-  left: 40%;
-  top: 30%;
-  width: 15%;
+  display: block;
+  margin: 30px auto;
+  width: 25%;
   font-size: 24px;
   border: 1px solid $sky;
   background-color: $navy-blue;

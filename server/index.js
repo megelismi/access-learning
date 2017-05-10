@@ -19,12 +19,11 @@ const knex = require('knex')({
   connection: process.env.DATABASE_URL || localConnection
 });
 
-app.get("/questions", (req, res) => {
-  knex("questions").then((questions) => {
+app.get('/questions', (req, res) => {
+  knex('questions').then((questions) => {
       res.status(200).json(questions);
   });
 });
-
 
 function runServer() {
   return new Promise((resolve, reject) => {
