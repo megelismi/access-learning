@@ -33,6 +33,6 @@ A mockup of a simple education app, catered towards upper elementary aged studen
 
 ## Tech Stack
 
-Frontend: React, Redux\n
-Backend: Node.js, Express\n
+Frontend: React, Redux  
+Backend: Node.js, Express  
 Database: PostgreSQL
